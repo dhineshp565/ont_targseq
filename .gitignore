@@ -1,5 +1,6 @@
 # Nextflow
 .nextflow*
+history
 work/
 trace*.txt
 timeline*.html
