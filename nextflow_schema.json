@@ -70,7 +70,7 @@
                   "type": "integer",
                   "default": 10,
                   "description": "Read count threshold/Sequence depth - Number of reads required for consensus generation",
-                  "enum": [1,2,3,4,5,6,7,8,9,10, 15, 20, 25,30]
+                  "enum": [1,2,3,4,5,6,7,8,9,10, 15, 20, 25,30,35,40,45,50,60,70,80,90,100]
                 },
                 "qscore": {
                   "type": "integer",
@@ -85,11 +85,12 @@
                   "enum": ["simple",
                             "bayesian"]
                 },
-                "trim_barcodes": {
-                    "type": "string",
+               "trim_barcodes": {
+                    "type": "boolean",
                     "description": "Select Yes to trim barcodes and adpter sequences",
-                    "enum": [
-                        "Yes"
+                    "default": false,
+                    "enum": [ true,
+                        false
                     ]
                 }
                 

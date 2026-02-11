@@ -6,6 +6,19 @@ A comprehensive Nextflow pipeline for analyzing targeted amplicon sequencing dat
 
 This pipeline processes ONT targeted amplicon sequencing data to generate high-quality consensus sequences, taxonomic classifications, phylogenetic analyses, and comprehensive quality control reports. 
 
+## Pathogens included in the default reference and ABRicate database
+
+| Pathogen | Abbreviation | Target Region |
+|----------|--------------|---------------|
+| Avian Reovirus | ARV | Sigma C |
+| Bovine Respiratory Syncytial Virus | BRSV | F, G, N genes |
+| Fowl Adenovirus | FAdV | Hexon gene |
+| Infectious Bursal Disease Virus | IBDV | VP2 region |
+| Infectious Bronchitis Virus | IBV | S1 region of Spike protein |
+| Influenza A Virus | InfA | HA and NA typing |
+| Porcine Circovirus 3 | PCV3 | ORF2 |
+| Porcine Rotavirus A, B, C | PRV | VP7 and VP4 full length |
+| Porcine Sapovirus | PSaV | VP1 sequence full length |
 
 ## Quick Start
 
@@ -32,7 +45,7 @@ nextflow run main.nf \
 |-----------|-------------|
 | `--input` | Path to input directory containing sample subdirectories |
 | `--out_dir` | Output directory for results |
-| `--reference` | Path to reference FASTA file |
+| `--reference` | Path to reference FASTA file. Default reference will contain sequences of pathgens listed above|
 | `--kraken_db` | Path to Kraken2 database |
 | `--blastdb_path` | Path to BLAST database directory |
 | `--blastdb_name` | BLAST database name |
@@ -60,7 +73,7 @@ input_directory/
 ```
 
 ### Required Files
-- Reference sequences (FASTA), `primer.bed` file, Kraken2 database, BLAST database
+- Reference sequences (FASTA),Kraken2 database, BLAST database
 
 ### Output Structure
 Results organized by analysis type:
