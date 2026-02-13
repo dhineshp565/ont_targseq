@@ -11,7 +11,7 @@ process merge_fastq {
     output:
     tuple val(SampleName),path("${SampleName}.{fastq,fastq.gz}")
     
-    shell:
+    script:
     """
     count=\$(ls -1 ${SamplePath}/*.gz 2>/dev/null | wc -l)
     

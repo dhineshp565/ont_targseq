@@ -26,7 +26,7 @@ include { igvreports } from './modules/local/igvreports'
 include { seq_length } from './modules/local/seq_length'
 
 workflow {
-	data=Channel
+	data=channel
 	.fromPath(params.input)
 	merge_fastq(make_csv(data).splitCsv(header:true).map { row-> tuple(row.SampleName,row.SamplePath)}, params.qscore)
 	reference=file(params.reference)
