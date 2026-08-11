@@ -33,6 +33,13 @@
                     "fa_icon": "fas fa-database",
                     "description": "Path to kraken2 database"
                 },
+                 "kraken_confidence": {
+                    "type": "number",
+                    "default": 0.01,
+                    "description": "Confidence threshold for kraken2 classification (between 0 and 1)",
+                    "minimum": 0.00,
+                    "maximum": 1.00
+                },
                  "blastdb_path": {
                     "type": "string",
                     "default": "/data/referenceDB/blast/microbe_db",
@@ -76,7 +83,7 @@
                   "type": "integer",
                   "default": 10,
                   "description": "Raw read quality score (Phred quality score). Only the reads equal to or above quality score will be used for analysis",
-                  "enum": [10, 12, 15, 20, 25,30,35,40]
+                  "enum": [7,8,9,10, 12, 15, 20, 25,30,35,40]
                 },
                 "consensus_mode": {
                   "type": "string",
@@ -92,6 +99,22 @@
                     "enum": [ true,
                         false
                     ]
+                },
+                 "dehost": {
+                    "type": "boolean",
+                    "description": "Remove host (bovine,porcine,avian) DNA reads from analysis",
+                    "default": false,
+                    "enum": [true,
+                        false
+                    ]
+    
+                },
+                "host_db": {
+                    "type": ["string", "null"],
+                    "default": "/data/referenceDB/kraken/k2_bos_taurus_db_12012026",
+                    "description": "Path to kraken db with host genome for dehosting",
+                    "format": "directory-path",
+                    "fa_icon": "fas fa-database"
                 }
                 
             }

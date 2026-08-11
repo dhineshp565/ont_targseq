@@ -7,6 +7,7 @@ process kraken2 {
     input:
     tuple val(SampleName),path (SamplePath)
     path(db_path)
+    val(confidence)
     
     output:
     path ("${SampleName}_kraken.csv")
@@ -14,6 +15,6 @@ process kraken2 {
     
     script:
     """
-    kraken2 --db $db_path --output ${SampleName}_kraken.csv --report ${SampleName}_kraken_report.csv --threads 1 ${SamplePath}
+    kraken2 --db $db_path --output ${SampleName}_kraken.csv --report ${SampleName}_kraken_report.csv --threads 1 --confidence ${confidence} ${SamplePath}
     """
 }

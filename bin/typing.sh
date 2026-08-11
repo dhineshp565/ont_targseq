@@ -20,8 +20,36 @@ then
 	printf "$1.fasta\t$1_No_consensus\tNone\tNone\tNone\tNone\tNone\tNone\tNone\tNone\tNone\tNone\tNone\tNone\tNo_consensus" >> $1_abricate.csv	
 fi
 
-# Convert the consensus sequence file to a tab-separated format and save it as <SampleName>.tsv
-awk '/^>/ {if (seq) {print seq}; printf "%s\t", substr($0, 2); seq=""} !/^>/ {seq = seq $0} END {if (seq) {print seq}}' $2 > $1.tsv	
+# Extract sequence names that have abricate results (skip header line, get column 2)
+tail -n +2 $1_abricate.csv | cut -f2 > $1_matched_seqs.txt
+
+# Extract only sequences that matched in abricate results and convert to TSV
+awk 'NR==FNR {matched[$1]=1; next}     # First pass: read matched sequence names and store in array
+     /^>/ {                            # When we encounter a fasta header line
+       if (seq && print_seq) print header "\t" seq    # Print previous sequence if it was matched
+       header=substr($0,2)                            # Extract header name (remove leading >)
+       gsub(/_consensus/,"",header)                   # Remove _consensus from header
+       gsub(/_medaka/,"",header)                      # Remove _medaka from header
+       print_seq=(header in matched)                  # Check if this header is in matched list
+       seq=""                                         # Reset sequence variable
+       next                                           # Move to next line
+     }
+     print_seq {seq=seq $0}            # If current sequence is matched, accumulate sequence lines
+     END {if (seq && print_seq) print header "\t" seq}' $1_matched_seqs.txt $2 > $1.tsv
+
+# Create a filtered FASTA file with only matched sequences
+awk 'NR==FNR {matched[$1]=1; next}     # Load matched sequence names
+     /^>/ {                            # When we encounter a fasta header line
+       if (seq && print_seq) {print ">"header; print seq}    # Print previous sequence in FASTA format
+       header=substr($0,2)              # Extract header name
+       gsub(/_consensus/,"",header)     # Remove _consensus from header
+       gsub(/_medaka/,"",header)        # Remove _medaka from header
+       print_seq=(header in matched)    # Check if this header is in matched list
+       seq=""                           # Reset sequence variable
+       next
+     }
+     print_seq {seq=seq $0}            # Accumulate sequence lines
+     END {if (seq && print_seq) {print ">"header; print seq}}' $1_matched_seqs.txt $2 > $1_filtered.fasta
 
 # Add a header to the TSV file with sequence header and sequence columns
 sed -i '1i SEQ HEADER\tSEQUENCE' $1.tsv

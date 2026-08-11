@@ -11,6 +11,7 @@ process abricate {
     output:
     path("${SampleName}_abricate.csv"),emit:abricate
     path("${SampleName}_withseq.csv"),emit:withseq
+    path("${SampleName}_filtered.fasta"),emit:filtered
     
     script:
     """

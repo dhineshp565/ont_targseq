@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 process minimap2 {
-    publishDir "${params.out_dir}/minimap2/",mode:"copy"
+    publishDir "${params.out_dir}/minimap2/"
     label "low"
     
     input:

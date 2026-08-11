@@ -2,7 +2,7 @@
 
 process igvreports {
     label "high"
-    publishDir "${params.out_dir}/igvreports/", mode: "copy"
+    publishDir "${params.out_dir}/igvreports/"
     
     input:
     path(csv)
