@@ -102,7 +102,7 @@
                 },
                  "dehost": {
                     "type": "boolean",
-                    "description": "Remove host (bovine,porcine,avian) DNA reads from analysis",
+                    "description": "Remove host (bovine,porcine,avian,canine,equine etc) DNA reads from analysis",
                     "default": false,
                     "enum": [true,
                         false

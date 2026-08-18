@@ -15,7 +15,7 @@ process make_limsfile {
     """
     date=\$(date '+%Y-%m-%d_%H-%M-%S')
     
-    awk 'FNR==1 && NR!=1 { while (/^#F/) getline; } 1 {print}' *_withseq.csv > LIMSfile.tsv
+    awk 'FNR==1 && NR!=1 { while (/^#F/) getline; } 1 {print}' *_withseq.tsv > LIMSfile.tsv
 
     cat ${software_version_file} LIMSfile.tsv > LIMSfile_\${date}.tsv
     """

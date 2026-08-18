@@ -45,7 +45,7 @@ for (i in sampleid){
   cat('\n\n<!-- -->\n\n')
   
   # display abricate results
-  abricate_ids <- (paste(i,"_abricate.csv",sep=""))
+  abricate_ids <- (paste(i,"_withseq.tsv",sep=""))
   abricate_raw <- read.csv(abricate_ids,header = TRUE,sep = "\t")
   abricate_final <- abricate_raw[,c(2,6,10,11,15)]
   colnames(abricate_final) <- c("SEQUENCE","GENE","%COVERAGE","%IDENTITY","RESULTS") 
@@ -55,7 +55,7 @@ for (i in sampleid){
 
   cat('\n\n<!-- -->\n\n')
   fasta_id <- (paste(i,"_filtered.fasta",sep=""))
-  fasta_file <- readLines(fasta_id)
+  fasta_file <- readLines(fasta_id, warn = FALSE)
   # Display the content
   cat("```\n")
   cat(fasta_file, sep = "\n")
@@ -69,7 +69,7 @@ for (i in sampleid){
 
   cat('\n\n<!-- -->\n\n')
   orf_id <- (paste(i,"_ORF.fasta",sep=""))
-  orf_file <- readLines(orf_id)
+  orf_file <- readLines(orf_id, warn = FALSE)
   # Display the content
   cat("```\n")
   cat(orf_file, sep = "\n")

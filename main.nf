@@ -14,7 +14,7 @@ include { make_report } from './modules/local/make_report'
 include { htmltopdf } from './modules/local/htmltopdf'
 include { blast_cons } from './modules/local/blast_cons'
 include { orfipy } from './modules/local/orfipy'
-include { abricate } from './modules/local/abricate'
+include { typing } from './modules/local/typing'
 include { make_limsfile } from './modules/local/make_limsfile'
 include { mafft } from './modules/local/mafft'
 include { iqtree } from './modules/local/iqtree'
@@ -66,13 +66,13 @@ workflow {
 	multiqc(nanoqc.mix(idxstats,stats).collect())
 	dbdir=file("${baseDir}/targseq")
 	
-	abricate(AMPLICONS.out.consensus,dbdir)
-	make_limsfile(abricate.out.withseq.collect(),software_version_file)
+	typing(AMPLICONS.out.consensus,dbdir)
+	make_limsfile(typing.out.withseq.collect(),software_version_file)
 	
 	blast_cons(AMPLICONS.out.consensus,params.blastdb_path,params.blastdb_name)
 
 	refdir="${baseDir}/reference_sequences"
-	mafft(QCREADS.out.csv,abricate.out.filtered.collect(),refdir)
+	mafft(QCREADS.out.csv,typing.out.filtered.collect(),refdir)
 	iqtree(mafft.out.collect())
 	ggtree(iqtree.out.collect())
 	orfipy(AMPLICONS.out.consensus)
@@ -95,8 +95,8 @@ workflow {
 	make_report(QCREADS.out.csv,
 				krona_kraken.out.raw,
 				AMPLICONS.out.mapped.collect(),
-				abricate.out.filtered.collect(),
-				abricate.out.abricate.collect(),
+				typing.out.filtered.collect(),
+				typing.out.withseq.collect(),
 				blast_cons.out.blast_formatted.collect(),
 				ggtree.out.png,
 				rmd_file,
