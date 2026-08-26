@@ -17,6 +17,8 @@ process make_limsfile {
     
     awk 'FNR==1 && NR!=1 { while (/^#F/) getline; } 1 {print}' *_withseq.tsv > LIMSfile.tsv
 
+    sed -i 's/_consensus//g' LIMSfile.tsv
+
     cat ${software_version_file} LIMSfile.tsv > LIMSfile_\${date}.tsv
     """
 }
