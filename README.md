@@ -1,10 +1,6 @@
 # ONT_targseq
 
-A comprehensive Nextflow pipeline for analyzing targeted amplicon sequencing data from Oxford Nanopore Technologies (ONT) sequencing platforms.
-
-## Overview
-
-This pipeline processes ONT targeted amplicon sequencing data to generate high-quality consensus sequences, taxonomic classifications, phylogenetic analyses, and comprehensive quality control reports. 
+Nextflow pipeline for analyzing targeted multiplex or single amplicon sequencing data from Oxford Nanopore Technologies (ONT) sequencing platforms. The pipeline processes ONT reads to produce polished consensus sequences for each target amplicon for downstream analysis. It also includes prebuilt typing workflows for some veterinary viral pathogens
 
 ## Pathogens included in the default reference and ABRicate database
 
@@ -92,7 +88,7 @@ Results organized by analysis type:
 
 
 
-## Software Dependencies
+## Software used
 
 | Tool | Purpose | Description | Citation |
 |------|---------|-------------|----------|
@@ -114,6 +110,7 @@ Results organized by analysis type:
 | **MultiQC** | Quality control | Tool that aggregates results from multiple bioinformatics analyses across many samples into a single report | [Ewels et al. (2016)](https://doi.org/10.1093/bioinformatics/btw354) |
 | **seqkit** | Sequence manipulation | Cross-platform and ultrafast toolkit for FASTA/Q file manipulation with rich functions | [Shen et al. (2016)](https://doi.org/10.1371/journal.pone.0163962) |
 | **ggtree** | Tree visualization | R package for visualization and annotation of phylogenetic trees with associated data | [Yu et al. (2017)](https://doi.org/10.1111/2041-210X.12628) |
+|**octoflu**|InfluenzaA Clade Identification|Automated classification to evolutionary origin of influenza A virus gene sequences detected in U.S. swine| [Chang et al. 2019](https://doi.org/10.1128/mra.00673-19)|
 
 
 

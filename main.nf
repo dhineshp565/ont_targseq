@@ -32,6 +32,8 @@ include { AMPLICONS } from './subworkflows/amplicons.nf'
 include { METAGENOMICS } from './subworkflows/metagenomics.nf'
 include { QCREADS } from './subworkflows/qcreads.nf'
 include { IGVREPORT } from './subworkflows/igvreport.nf'
+include { OCTOFLU } from './subworkflows/octoflu.nf'
+
 
 workflow {
 	// Merge fastq files and qc filtering
@@ -67,7 +69,9 @@ workflow {
 	dbdir=file("${baseDir}/targseq")
 	
 	typing(AMPLICONS.out.consensus,dbdir)
-	make_limsfile(typing.out.withseq.collect(),software_version_file)
+	
+	OCTOFLU(AMPLICONS.out.consensus)
+	make_limsfile(typing.out.withseq.collect(),OCTOFLU.out.clade_result.collect(),software_version_file)
 	
 	blast_cons(AMPLICONS.out.consensus,params.blastdb_path,params.blastdb_name)
 
@@ -76,6 +80,8 @@ workflow {
 	iqtree(mafft.out.collect())
 	ggtree(iqtree.out.collect())
 	orfipy(AMPLICONS.out.consensus)
+	
+	
 
 	// Pair consensus and ORF files by sample name
 	paired_consensus_orf = AMPLICONS.out.consensus.join(orfipy.out.orf)

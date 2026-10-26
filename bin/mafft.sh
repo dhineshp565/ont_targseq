@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# This script gets the consensus sequences for each case and checks for the presence of specific viruses.
-# It concatenates the sequences with reference sequences for multiple sequencing alignments.
+# This script gets the consensus sequences for each case and checks for the presence of specific viruses "FAdV" "IBDV" "IBV").
+# It concatenates the sequences with reference sequences and performs multiple sequencing alignments using mafft
 # $1 = input CSV file with sample names and paths
 # $2 = path to the directory containing reference sequences
 
