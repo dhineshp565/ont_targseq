@@ -71,7 +71,10 @@ workflow {
 	typing(AMPLICONS.out.consensus,dbdir)
 	
 	OCTOFLU(AMPLICONS.out.consensus)
+	
+	
 	make_limsfile(typing.out.withseq.collect(),OCTOFLU.out.clade_result.collect(),software_version_file)
+	
 	
 	blast_cons(AMPLICONS.out.consensus,params.blastdb_path,params.blastdb_name)
 

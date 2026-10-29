@@ -12,8 +12,13 @@ process octoflu_nf {
 
     script:
     """
-    octoFLU.sh $consensus
-    sed -E 's/_[HN][0-9]+_consensus//g' *_Final_Output.txt > "${SampleName}_octoflu.txt"
+    if grep -q 'InfA' '${consensus}'; then
+        octoFLU.sh '${consensus}'
+        sed -E 's/_[HN][0-9]+_consensus//g' *_Final_Output.txt > '${SampleName}_octoflu.txt'
+    else
+        touch '${SampleName}_octoflu.txt'
+        mkdir -p ${SampleName}_output
+    fi
    
 
     """
@@ -25,10 +30,10 @@ workflow OCTOFLU {
         consensus
 
     main:
-        consensus.map{ sample,consensus_file -> tuple(sample,consensus_file) }
-        .filter {_sample,consensus_file -> consensus_file.splitFasta(record: [header: true])
-        .any { record -> record.header.contains('InfA')}}    
-        .set {infa_fasta_ch}                   
+        infa_fasta_ch=consensus.map{ sample,consensus_file -> tuple(sample,consensus_file) }
+        //.filter {_sample,consensus_file -> consensus_file.splitFasta(record: [header: true])
+        //.any { record -> record.header.contains('InfA')}}    
+        //.set {infa_fasta_ch}                   
                         
          octoflu_nf(infa_fasta_ch)
     
