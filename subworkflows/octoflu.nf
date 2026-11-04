@@ -1,43 +1,48 @@
 #!/usr/bin/env nextflow
 
 process octoflu_nf {
-   label "high"
-    publishDir "${params.out_dir}/octoflu/" ,mode: 'copy'
+    label 'high'
+
+    publishDir "${params.out_dir}/octoflu/", mode: 'copy'
+
     input:
-    tuple(val(SampleName), path (consensus))
+    tuple val(SampleName), path(consensus)
+    path(octoflu_reference)
 
     output:
-    path "*_output"
-    path "${SampleName}_octoflu.txt",emit: clade_result
+    path('*_output')
+    path("${SampleName}_octoflu.txt"), emit: clade_result
 
     script:
+
     """
     if grep -q 'InfA' '${consensus}'; then
-        octoFLU.sh '${consensus}'
-        sed -E 's/_[HN][0-9]+_consensus//g' *_Final_Output.txt > '${SampleName}_octoflu.txt'
+        octoFLU.sh '${consensus}' '${octoflu_reference}'
+
+        if ls *_Final_Output.txt >/dev/null 2>&1; then
+            sed -E 's/_[HN][0-9]+_consensus//g' *_Final_Output.txt > '${SampleName}_octoflu.txt'
+        else
+            touch '${SampleName}_octoflu.txt'
+        fi
     else
         touch '${SampleName}_octoflu.txt'
-        mkdir -p ${SampleName}_output
+        mkdir -p '${SampleName}_output'
     fi
-   
-
     """
 }
 
 
 workflow OCTOFLU {
-    take: 
-        consensus
+    take:
+    consensus
+    octoflu_reference
 
     main:
-        infa_fasta_ch=consensus.map{ sample,consensus_file -> tuple(sample,consensus_file) }
-        //.filter {_sample,consensus_file -> consensus_file.splitFasta(record: [header: true])
-        //.any { record -> record.header.contains('InfA')}}    
-        //.set {infa_fasta_ch}                   
-                        
-         octoflu_nf(infa_fasta_ch)
+    // Handle optional reference - map consensus with reference or empty
+   
+    octoflu_nf(consensus,octoflu_reference)
     
-    emit:
-    clade_result=octoflu_nf.out.clade_result
-}
 
+    emit:
+    clade_result = octoflu_nf.out.clade_result
+}

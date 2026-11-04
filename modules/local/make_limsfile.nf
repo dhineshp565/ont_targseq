@@ -11,7 +11,7 @@ process make_limsfile {
     
     output:
     path("LIMSfile_*.tsv")
-    path("octoflu_*.tsv"), optional: true
+    path("octoflu_*.tsv"),optional:true
     
     script:
     """
@@ -23,10 +23,8 @@ process make_limsfile {
 
     cat ${software_version_file} LIMSfile.tsv > LIMSfile_\${date}.tsv
 
-    if [ -s "${octoflu_out}" ]; then
-        cat ${octoflu_out} > octoflu_\${date}.tsv
-        sed -i 's/_consensus//g' octoflu_\${date}.tsv
-        sed -i "1i SEQUENCE\tTYPE\tUS CLADE\tGLOBAL CLADE" octoflu_\${date}.tsv
-    fi
+    cat ${octoflu_out} > octoflu_\${date}.tsv
+    sed -i 's/_consensus//g' octoflu_\${date}.tsv
+    sed -i "1i SEQUENCE\tTYPE\tUS CLADE\tGLOBAL CLADE" octoflu_\${date}.tsv
     """
 }

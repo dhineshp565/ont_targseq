@@ -100,6 +100,13 @@
                         false
                     ]
                 },
+                "octoflu_reference": {
+                    "type": ["string", "null"],
+                    "default": "/data/referenceDB/octoflu/octoflu_reference.fasta",
+                    "description": "Path to octoflu reference fasta file",
+                    "format": "file-path",
+                    "exists": true
+                },
                  "dehost": {
                     "type": "boolean",
                     "description": "Remove host (bovine,porcine,avian,canine,equine etc) DNA reads from analysis",
