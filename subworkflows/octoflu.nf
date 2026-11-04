@@ -7,21 +7,18 @@ process octoflu_nf {
 
     input:
     tuple val(SampleName), path(consensus)
-    path (octoflu_reference)
+    path(octoflu_reference)
 
     output:
     path('*_output')
     path("${SampleName}_octoflu.txt"), emit: clade_result
 
     script:
+ 
 
     """
     if grep -q 'InfA' '${consensus}'; then
-        if [ "${octoflu_reference}" != "none" ]; then
-            octoFLU.sh ${consensus} ${octoflu_reference}
-        else
-            octoFLU.sh ${consensus}
-        fi
+        octoFLU.sh '${consensus}' ${octoflu_reference}
 
         if ls *_Final_Output.txt >/dev/null 2>&1; then
             sed -E 's/_[HN][0-9]+_consensus//g' *_Final_Output.txt > '${SampleName}_octoflu.txt'
