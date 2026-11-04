@@ -70,11 +70,9 @@ workflow {
 	
 	typing(AMPLICONS.out.consensus,dbdir)
 
-	octoflu_ref = params.octoflu_reference
-    ? file(params.octoflu_reference, checkIfExists: true)
-    : []
+	
 
-	OCTOFLU(AMPLICONS.out.consensus, octoflu_ref)
+	OCTOFLU(AMPLICONS.out.consensus, params.octoflu_reference)
 	
 	make_limsfile(typing.out.withseq.collect(),OCTOFLU.out.clade_result.collect(),software_version_file)
 	
