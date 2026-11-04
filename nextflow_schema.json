@@ -101,8 +101,8 @@
                     ]
                 },
                 "octoflu_reference": {
-                    "type": "string",
-                    "description": "Octoflu reference for influenza A clade identification. Use file browser to select, or choose null.",
+                    "type": ["string", "null"],
+                    "description": "Octoflu reference for influenza A clade identification. Use file browser to select, or type 'none' to use internal reference.",
                     "format": "file-path",
                     "default": "/data/referenceDB/octoflu/octoflu_reference.fasta",
                     "fa_icon": "fas fa-database",
